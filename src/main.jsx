@@ -9,6 +9,7 @@ import Service from "./pages/services/Service.jsx";
 import Contact from "./pages/contact/Contact.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProductDetails from "./pages/product/ProductDetails.jsx";
+import Signup from "./pages/auth/Signup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: "/signup",
+    element: <Signup/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
