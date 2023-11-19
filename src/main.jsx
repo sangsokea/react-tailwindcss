@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout.jsx";
 import Service from "./pages/services/Service.jsx";
 import Contact from "./pages/contact/Contact.jsx";
 import Home from "./pages/home/Home.jsx";
+import ProductDetails from "./pages/product/ProductDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home/>  
+      },
+      {
+        path: "/detail",
+        element: <ProductDetails/>
       },
       {
         path: "app",
