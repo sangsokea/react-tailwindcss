@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
+const FILE_SIZE = 1024 * 1024 * 1; // 10MB
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Required"),
@@ -13,6 +16,17 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Password must match")
     .required("Required"),
+  avatar: Yup.mixed()
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      (value) => value && SUPPORTED_FORMATS.includes(value.type)
+    )
+    .test(
+      "fileSize",
+      "File too large",
+      (value) => value && value.size <= FILE_SIZE
+    ),
 });
 
 export default function Signup() {
@@ -28,13 +42,14 @@ export default function Signup() {
           email: "",
           password: "",
           confirmPassword: "",
+          avatar: null,
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           //   console.log(values);
         }}
       >
-        {({isSubmitting}) => {
+        {({ isSubmitting, setFieldValue }) => {
           console.log(isSubmitting);
           return (
             <Form className="w-1/2">
@@ -113,6 +128,27 @@ export default function Signup() {
                   {(msg) => <div className="text-red-500">{msg}</div>}
                 </ErrorMessage>
               </div>
+
+              {/* Avatar */}
+              <div className="mb-4">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="avatar"
+                >
+                  Avatar
+                </label>
+                <Field
+                  setFieldValue={setFieldValue}
+                  type="file"
+                  name="avatar"
+                  id="avatar"
+                  component={InputField}
+                />
+                <ErrorMessage name="avatar">
+                  {(msg) => <div className="text-red-500">{msg}</div>}
+                </ErrorMessage>
+              </div>
+
               {isSubmitting && (
                 <button
                   type="button"
@@ -122,6 +158,7 @@ export default function Signup() {
                   Disabled button
                 </button>
               )}
+
               {!isSubmitting && (
                 <button
                   disabled={isSubmitting}
@@ -138,3 +175,32 @@ export default function Signup() {
     </div>
   );
 }
+
+
+const InputField = ({ setFieldValue, form }) => {
+  console.log(form);
+  const [preview, setPreview] = useState(null);
+  const handleChange = (e) => {
+    
+    const file = e.target.files[0];
+    setPreview(URL.createObjectURL(file));
+    setFieldValue("avatar", file);
+    
+  };
+  return (
+    <div className="max-h-56 w-56 rounded-2xl relative">
+      <img
+        className="w-full h-full object-cover rounded-2xl cursor-pointer"
+        src={
+          preview
+            ? preview
+            : "https://content.hostgator.com/img/weebly_image_sample.png"
+        }
+        alt=""
+        onClick={() => document.querySelector("#file").click()}
+      />
+      <input type="file" className="hidden" id="file" onChange={handleChange} />
+    </div>
+  );
+};
+
