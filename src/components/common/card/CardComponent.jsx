@@ -1,14 +1,24 @@
 import React from "react";
 import { Card } from "flowbite-react";
+import { add } from "../../../redux/features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function CardComponent({
   onClickMyComponent,
   title,
   price,
   image,
+  description,
+  id
 }) {
+
+  const dispatch = useDispatch();
+  function handleClick(){
+    dispatch(add({id, title, price, image, description, quantity: 1}))
+  }
+
   return (
-    <Card onClick={onClickMyComponent} className="max-w-sm">
+    <Card onClick={handleClick} className="max-w-sm">
       <div className="h-56 overflow-hidden">
         <img src={image} alt="" />
       </div>

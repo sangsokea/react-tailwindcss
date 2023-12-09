@@ -44,6 +44,8 @@ export default function Home() {
             title={item.title}
             price={item.price}
             image={item.images[0]}
+            description={item.description}
+            id={item.id}
           />
         ))}
     </div>
