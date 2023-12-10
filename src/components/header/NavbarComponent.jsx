@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
-import {CartIcon}   from "../common/icons/Icons";
+import { CartIcon } from "../common/icons/Icons";
 import { useSelector } from "react-redux";
+import { Avatar } from "flowbite-react";
+import { selectAvatar } from "../../redux/features/user/userSlice";
 export default function NavbarComponent() {
+  const avatar = useSelector(selectAvatar);
+
   const [navbarList, setNavbarList] = useState([
     {
       title: "Home",
@@ -27,10 +31,8 @@ export default function NavbarComponent() {
     },
   ]);
 
-  const items = useSelector(state => state.cart.total)
-  const state = useSelector(state => state.cart)
-  console.log(state);
-
+  const items = useSelector((state) => state.cart.total);
+  const state = useSelector((state) => state.cart);
 
   const handleClick = (item) => {
     setNavbarList((preValuse) => {
@@ -90,6 +92,24 @@ export default function NavbarComponent() {
             </span>
           </div>
         </Navbar.Link>
+
+        {/* create user button */}
+        <Navbar.Link as={Link} to="/create-user">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          create User
+          </button>
+        </Navbar.Link>
+
+        {/* create user button */}
+        <Navbar.Link as={Link} to="/login">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Login
+          </button>
+        </Navbar.Link>
+        {/* avatar */}
+        <div className="flex flex-wrap gap-2">
+          <Avatar img={avatar} rounded bordered />
+        </div>
       </Navbar.Collapse>
     </Navbar>
   );

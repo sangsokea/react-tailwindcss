@@ -9,10 +9,11 @@ import Service from "./pages/services/Service.jsx";
 import Contact from "./pages/contact/Contact.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProductDetails from "./pages/product/ProductDetails.jsx";
-import Signup from "./pages/auth/Signup.jsx";
 import { Provider } from "react-redux";
 import {store} from "./redux/store.js";
 import CartItems from "./pages/cartItems/CartItems.jsx";
+import CreateUser from "./pages/auth/CreateUser.jsx";
+import Login from "./pages/auth/Login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,9 +51,14 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/signup",
-    element: <Signup />,
+    path: "/create-user",
+    element: <CreateUser />,
   },
+  {
+    path: '/login',
+    element: <Login />
+  }
+ 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
